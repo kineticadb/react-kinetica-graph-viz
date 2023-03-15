@@ -1,0 +1,46 @@
+{
+  "name": "@kinetica/react-kinetica-graph-viz",
+  "version": "1.0.0",
+  "description": "Kinetica DB React component for graph visualization",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "scripts": {
+    "build": "rollup -c",
+    "push": "npm run build && npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kineticadb/react-kinetica-graph-viz.git"
+  },
+  "author": "Pat Khunachak <pkhunachak@kinetica.com> (https://github.com/kineticadb)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kineticadb/react-kinetica-graph-viz/issues"
+  },
+  "homepage": "https://github.com/kineticadb/react-kinetica-graph-viz",
+  "keywords": [
+    "react",
+    "kinetica",
+    "graph",
+    "viz"
+  ],
+  "dependencies": {
+    "@kinetica/kinetica-graph-viz": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^2.79.1"
+  }
+}
