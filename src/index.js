@@ -6,8 +6,11 @@ const KineticaGraphViz = ({
   server = "http://127.0.0.1:9191",
   username = "",
   password = "",
+  options = {},
+  nodes: [],
   node_table = "",
   node_columns = [],
+  edges: [],
   edge_table = "",
   edge_columns = [],
   data_table = "",
@@ -17,7 +20,7 @@ const KineticaGraphViz = ({
   graph_config = () => {},
 }) => {
   useEffect(() => {
-    const kGraphViz = new KineticaGraphVizHelper(id);
+    const kGraphViz = new KineticaGraphVizHelper(id, options);
     kGraphViz
       .connect(server, {
         username,
@@ -25,7 +28,12 @@ const KineticaGraphViz = ({
       })
       .limit(limit)
       .graph(graph_config);
-    if (node_table && edge_table) {
+    if (nodes.length > 0 && edges.length > 0) {
+      kGraphViz.raw({
+        nodes,
+        edges,
+      });
+    } else if (node_table && edge_table) {
       kGraphViz.nodes(node_table, node_columns).edges(edge_table, edge_columns);
     } else if (data_table) {
       kGraphViz.data(data_table, data_columns, data_group);
@@ -36,8 +44,11 @@ const KineticaGraphViz = ({
     server,
     username,
     password,
+    options,
+    nodes,
     node_table,
     node_columns,
+    edges,
     edge_table,
     edge_columns,
     data_table,
