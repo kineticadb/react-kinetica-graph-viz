@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import KineticaGraphVizHelper from "@kinetica/kinetica-graph-viz";
 
 const KineticaGraphViz = ({
@@ -7,44 +8,52 @@ const KineticaGraphViz = ({
   username = "",
   password = "",
   options = {},
-  nodes: [],
+  nodes,
   node_table = "",
-  node_columns = [],
-  edges: [],
+  node_columns,
+  edges,
   edge_table = "",
-  edge_columns = [],
+  edge_columns,
   data_table = "",
-  data_columns = [],
-  data_group = undefined,
+  data_columns,
   limit = 1000,
   graph_config = () => {},
 }) => {
+  const [kGraphViz, setKGraphViz] = useState(null);
+
+  useEffect(
+    (_) => {
+      const viz = new KineticaGraphVizHelper(id, options);
+      viz
+        .connect(server, {
+          username,
+          password,
+        })
+        .limit(limit)
+        .graph(graph_config);
+      setKGraphViz(viz);
+    },
+    [id, server, username, password, options, limit]
+  );
+
   useEffect(() => {
-    const kGraphViz = new KineticaGraphVizHelper(id, options);
-    kGraphViz
-      .connect(server, {
-        username,
-        password,
-      })
-      .limit(limit)
-      .graph(graph_config);
-    if (nodes.length > 0 && edges.length > 0) {
-      kGraphViz.raw({
-        nodes,
-        edges,
-      });
-    } else if (node_table && edge_table) {
-      kGraphViz.nodes(node_table, node_columns).edges(edge_table, edge_columns);
-    } else if (data_table) {
-      kGraphViz.data(data_table, data_columns, data_group);
+    if (kGraphViz) {
+      if (nodes && nodes.length > 0 && edges && edges.length > 0) {
+        kGraphViz.raw({
+          nodes,
+          edges,
+        });
+      } else if (node_table && edge_table && node_columns && edge_columns) {
+        kGraphViz
+          .nodes(node_table, node_columns)
+          .edges(edge_table, edge_columns);
+      } else if (data_table && data_columns) {
+        kGraphViz.data(data_table, data_columns);
+      }
+      kGraphViz.render();
     }
-    kGraphViz.render();
   }, [
-    id,
-    server,
-    username,
-    password,
-    options,
+    kGraphViz,
     nodes,
     node_table,
     node_columns,
@@ -53,10 +62,9 @@ const KineticaGraphViz = ({
     edge_columns,
     data_table,
     data_columns,
-    data_group,
-    limit,
     graph_config,
   ]);
+
   return <div id={id}></div>;
 };
 
