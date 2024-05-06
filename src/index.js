@@ -17,6 +17,7 @@ const KineticaGraphViz = ({
   data_table = "",
   data_columns,
   limit = 1000,
+  curvature = 1.0,
   graph_config = () => {},
 }) => {
   const [kGraphViz, setKGraphViz] = useState(null);
@@ -30,10 +31,11 @@ const KineticaGraphViz = ({
           password,
         })
         .limit(limit)
+        .curvature(curvature)
         .graph(graph_config);
       setKGraphViz(viz);
     },
-    [id, server, username, password, options, limit]
+    [id, server, username, password, options, limit, curvature]
   );
 
   useEffect(() => {
