@@ -8,3 +8,10 @@ src
 # Files
 .gitignore
 rollup.config.js
+vitest.config.mjs
+playwright.config.mjs
+playwright.live.config.mjs
+.nvmrc
+test
+test-results
+playwright-report

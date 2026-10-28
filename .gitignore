@@ -4,3 +4,6 @@ dist
 
 # Output of 'npm pack'
 *.tgz
+# Playwright output
+test-results
+playwright-report

@@ -1,6 +1,4 @@
 import babel from "@rollup/plugin-babel";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
 import pkg from "./package.json";
 
@@ -16,9 +14,13 @@ export default {
       exclude: "node_modules/**",
       presets: ["@babel/preset-env", "@babel/preset-react"],
     }),
-    resolve(),
-    commonjs(),
     terser(),
   ],
-  external: Object.keys(pkg.peerDependencies),
+  // Dependencies are installed alongside this package and resolved by the
+  // app's bundler, so none are bundled here. This also keeps the graph library
+  // from being evaluated on import (e.g. during SSR).
+  external: [
+    ...Object.keys(pkg.dependencies),
+    ...Object.keys(pkg.peerDependencies),
+  ],
 };
